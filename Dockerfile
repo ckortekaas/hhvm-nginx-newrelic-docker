@@ -3,9 +3,6 @@
 # Some ideas forked from Joostvanderlaan/dockerfiles and nikolaplejic/docker.hhvm on github.com mixing in some Phusion Ubuntu 14.04 and new relic
 # Disabled supervisord stuff for now to see if its really necessary on Phusion
 
-# Tweet me on http://twitter.com/ckortekaas if you're a twit like me
-MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
-
 # Use phusion/baseimage as base image. To make your builds
 # reproducible, make sure you lock down to a specific version, not
 # to `latest`! See
@@ -13,6 +10,9 @@ MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
 # for a list of version numbers.
 # Using 0.9.10 when Ubuntu 14.04 became base
 FROM phusion/baseimage:0.9.10
+
+# Tweet me on http://twitter.com/ckortekaas if you're a twit like me
+MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
 
 # Set correct environment variables.
 ENV HOME /root
