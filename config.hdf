@@ -1,0 +1,62 @@
+Server {
+  Port = 80
+  SourceRoot = /mnt/hhvm
+}
+
+EnvVariables {
+  NEWRELIC_LICENSE_KEY = REPLACE_ME
+  NEWRELIC_APP_NAME = HHVM Example
+  NEWRELIC_APP_LANGUAGE = php-hhvm
+  NEWRELIC_APP_LANGUAGE_VERSION = 3.1.0
+}
+
+Eval {
+  Jit = true
+}
+Log {
+  Level = Error
+  UseLogFile = true
+  File = /var/log/hhvm/error.log
+  Access {
+    * {
+      File = /var/log/hhvm/access.log
+      Format = %h %l %u %t \"%r\" %>s %b
+    }
+  }
+}
+
+VirtualHost {
+ * {
+   Pattern = .*
+   RewriteRules {
+      * {
+        pattern = .?
+
+	# app bootstrap
+        to = index.php
+
+        # append the original query string
+        qsa = true
+      }
+   }
+ }
+}
+
+StaticFile {
+  Extensions {
+    css = text/css
+    gif = image/gif
+    html = text/html
+    jpe = image/jpeg
+    jpeg = image/jpeg
+    jpg = image/jpeg
+    png = image/png
+    tif = image/tiff
+    tiff = image/tiff
+    txt = text/plain
+  }
+}
+
+DynamicExtensions {
+  newrelic = /usr/local/src/hhvm-newrelic-ext/newrelic.so
+}
