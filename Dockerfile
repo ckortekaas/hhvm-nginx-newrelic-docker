@@ -63,6 +63,15 @@ RUN apt-get install -y --force-yes autoconf automake binutils-dev build-essentia
   libiberty-dev libxslt1-dev ocaml-native-compilers \
   php5-imagick
 
+# add nginx repository
+RUN add-apt-repository -y ppa:nginx/stable
+
+# Run after setting repositories
+RUN apt-get update -y
+
+# Basic Requirements - Installing Nginx before HHVM allowed HHVM to detect Nginx and create the /etc/nginx/hhvm.conf file for you.
+RUN apt-get -y install nginx python-setuptools curl unzip
+
 # Clone hhvm and switch to release 3.1 to get the hphpize tool needed for new relic hhvm ext
 RUN git clone https://github.com/facebook/hhvm.git
 # Or for debug/dev use github ssh which is 3x faster speed, but you need the ssh keys setup
@@ -84,17 +93,7 @@ RUN hphpize
 RUN cmake .
 RUN make
 
-
 RUN export HPHP_HOME=/usr/share/hhvm-profile/
-
-# add nginx repository
-RUN add-apt-repository -y ppa:nginx/stable
-
-# Run after setting repositories
-RUN apt-get update -y
-
-# Basic Requirements - Installing Nginx before HHVM allowed HHVM to detect Nginx and create the /etc/nginx/hhvm.conf file for you.
-RUN apt-get -y install nginx hhvm python-setuptools curl git unzip
 
 # nginx config
 RUN sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf
@@ -104,12 +103,13 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN mkdir /etc/service/nginx
 ADD nginx.sh /etc/service/nginx/run
 
-RUN mkdir /var/www
-RUN chown -R www-data:www-data /var/www
+#RUN mkdir /var/www
+#RUN chown -R www-data:www-data /var/www
 
 
 # create a directory with a sample index.php file
 RUN sudo mkdir -p /mnt/hhvm
+RUN chown -R www-data:www-data /mnt/hhvm
 
 # echo something for testing purposes, with hiphop it will only show text: Hiphop
 RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/index.php
