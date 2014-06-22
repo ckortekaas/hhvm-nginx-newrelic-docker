@@ -117,11 +117,7 @@ RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/index.php
 # For newer NGINX
 ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
 #ADD ./supervisord.conf /etc/supervisord.conf
-ADD ./config.hdf /mnt/hhvm/config.hdf
-
-#Replace the licence key with the passed in env variable
-RUN sed -i "s/ NEWRELIC_LICENSE_KEY = REPLACE_ME/ NEWRELIC_LICENSE_KEY = $NEWRELIC_KEY/g" /mnt/hhvm/config.hdf
-
+#ADD ./config.hdf /mnt/hhvm/config.hdf
 
 
 RUN sudo /usr/share/hhvm/install_fastcgi.sh

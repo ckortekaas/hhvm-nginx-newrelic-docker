@@ -15,8 +15,8 @@ This docker is in early alpha testing. It's not 'done' yet. Feel free to send me
 
 Configuration
 =============
-Run the container with the new relic licence key passed as an environment variable eg
+Run the container with dir and config.hdf in /mnt/hhvm. Replace the NEWRELIC_LICENSE_KEY with your own first.
 
 ```
-docker run -i -t -e NEWRELIC_KEY=YOUR_KEY_HERE ckortekaas/hhvm-nginx-newrelic 
+docker run -i -t ckortekaas/hhvm-nginx-newrelic -v /path/to/the/host/machine/directory:/mnt/hhvm:ro hhvm
 ```
