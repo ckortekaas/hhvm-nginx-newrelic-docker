@@ -17,5 +17,6 @@ Configuration
 =============
 Run the container with the new relic licence key passed as an environment variable eg
 
-```docker run -i -t -e NEWRELIC_KEY=YOUR_KEY_HERE ckortekaas/hhvm-nginx-newrelic 
+```
+docker run -i -t -e NEWRELIC_KEY=YOUR_KEY_HERE ckortekaas/hhvm-nginx-newrelic 
 ```
