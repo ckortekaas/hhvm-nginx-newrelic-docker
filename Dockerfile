@@ -26,8 +26,8 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 ENTRYPOINT ["/sbin/my_init"]
 
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
-RUN echo "deb http://mirror.optus.net/ubuntu/ trusty main universe" > /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+#RUN echo "deb http://mirror.optus.net/ubuntu/ trusty main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get -y upgrade
 
@@ -73,6 +73,7 @@ RUN apt-get update -y
 RUN apt-get -y install nginx python-setuptools curl unzip
 
 # Clone hhvm and switch to release 3.1 to get the hphpize tool needed for new relic hhvm ext
+RUN cd /usr/local/src
 RUN git clone https://github.com/facebook/hhvm.git
 # Or for debug/dev use github ssh which is 3x faster speed, but you need the ssh keys setup
 #RUN git clone git@github.com:facebook/hhvm.git
@@ -87,7 +88,8 @@ RUN make install
 
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN cd /usr/local/src
-RUN git clone git@github.com:chregu/hhvm-newrelic-ext
+RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git
+#RUN git clone git@github.com:chregu/hhvm-newrelic-ext
 RUN cd hhvm-newrelic-ext
 RUN hphpize
 RUN cmake .
