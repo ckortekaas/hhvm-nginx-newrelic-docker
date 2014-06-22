@@ -74,11 +74,11 @@ RUN apt-get -y install nginx python-setuptools curl unzip
 
 # Clone hhvm and switch to release 3.1 to get the hphpize tool needed for new relic hhvm ext
 RUN cd /usr/local/src
-RUN git clone https://github.com/facebook/hhvm.git
+RUN git clone https://github.com/facebook/hhvm.git /usr/local/src/hhvm
 # Or for debug/dev use github ssh which is 3x faster speed, but you need the ssh keys setup
 #RUN git clone git@github.com:facebook/hhvm.git
-RUN cd hhvm
-RUN git checkout -b HHVM-3.1.0
+RUN cd /usr/local/src/hhvm
+RUN git checkout -b "HHVM-3.1.0"
 RUN rm -r third-party
 RUN git submodule update --init --recursive
 RUN cmake .
@@ -90,7 +90,7 @@ RUN make install
 RUN cd /usr/local/src
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
-RUN cd hhvm-newrelic-ext
+RUN cd  /usr/local/src/hhvm/hhvm-newrelic-ext
 RUN hphpize
 RUN cmake .
 RUN make
