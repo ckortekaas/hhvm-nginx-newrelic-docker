@@ -45,11 +45,10 @@ RUN echo deb http://dl.hhvm.com/ubuntu trusty main | sudo tee /etc/apt/sources.l
 #RUN add-apt-repository -y ppa:mapnik/boost
 
 # Add New Relic HHVM Extension and compile
-RUN cd /usr/local/src
-RUN wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
-RUN tar xvzf nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
-RUN cp nr_agent_sdk-v0.7.2.0-beta.x86_64/lib/* /usr/local/lib/
-RUN cp nr_agent_sdk-v0.7.2.0-beta.x86_64/include/* /usr/local/include/
+RUN cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
+RUN tar xvzf /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
+RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/lib/* /usr/local/lib/
+RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/include/* /usr/local/include/
 
 # Get all the compiler pre-reqs
 RUN apt-get install -y --force-yes autoconf automake binutils-dev build-essential cmake git g++ \
@@ -77,23 +76,12 @@ RUN cd /usr/local/src
 RUN git clone https://github.com/facebook/hhvm.git /usr/local/src/hhvm
 # Or for debug/dev use github ssh which is 3x faster speed, but you need the ssh keys setup
 #RUN git clone git@github.com:facebook/hhvm.git
-RUN cd /usr/local/src/hhvm
-RUN git checkout -b "HHVM-3.1.0"
-RUN rm -r third-party
-RUN git submodule update --init --recursive
-RUN cmake .
-# make, and make install - we're just doing this for the hphpize which doesn't come in the apt package sadly so src is required
-RUN make
-RUN make install
+RUN cd /usr/local/src/hhvm; git checkout -b HHVM-3.1.0; rm -r third-party; git submodule update --init --recursive; cmake .; make; make install
 
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
-RUN cd /usr/local/src
-RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git
+RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
-RUN cd  /usr/local/src/hhvm/hhvm-newrelic-ext
-RUN hphpize
-RUN cmake .
-RUN make
+RUN cd  /usr/local/src/hhvm/hhvm-newrelic-ext; hphpize; cmake .; make
 
 RUN export HPHP_HOME=/usr/share/hhvm-profile/
 
