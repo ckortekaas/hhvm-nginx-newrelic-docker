@@ -46,7 +46,7 @@ RUN echo deb http://dl.hhvm.com/ubuntu trusty main | sudo tee /etc/apt/sources.l
 
 # Add New Relic HHVM Extension and compile
 RUN cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
-RUN tar xvzf /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
+RUN cd /usr/local/src; tar xvzf /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
 RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/lib/* /usr/local/lib/
 RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/include/* /usr/local/include/
 
