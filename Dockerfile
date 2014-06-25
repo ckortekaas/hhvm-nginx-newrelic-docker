@@ -8,8 +8,8 @@
 # to `latest`! See
 # https://github.com/phusion/baseimage-docker/blob/master/Changelog.md
 # for a list of version numbers.
-# Using 0.9.10 when Ubuntu 14.04 became base
-FROM phusion/baseimage:0.9.10
+# Using 0.9.11 when Ubuntu 14.04 became base and docker-bash was added
+FROM phusion/baseimage:0.9.11
 
 # Tweet me on http://twitter.com/ckortekaas if you're a twit like me
 MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
