@@ -20,14 +20,15 @@ ENV HOME /root
 # Regenerate SSH host keys. baseimage-docker does not contain any, so you
 # have to do that yourself. You may also comment out this instruction; the
 # init system will auto-generate one during boot.
-RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+#RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Use baseimage-docker's init system.
 ENTRYPOINT ["/sbin/my_init"]
 
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 #RUN echo "deb http://mirror.optus.net/ubuntu/ trusty main universe" > /etc/apt/sources.list
+RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ trusty main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get -y upgrade
 
@@ -36,7 +37,7 @@ RUN apt-get -y upgrade
 #RUN ln -sf /bin/true /sbin/initctl
 
 # Otherwise you cannot add repositories
-RUN apt-get install -y software-properties-common python-software-properties wget nano
+RUN apt-get install -y software-properties-common wget nano
 
 # Add HHVM repository
 RUN wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add -
@@ -45,8 +46,9 @@ RUN echo deb http://dl.hhvm.com/ubuntu trusty main | sudo tee /etc/apt/sources.l
 #RUN add-apt-repository -y ppa:mapnik/boost
 
 # Add New Relic HHVM Extension and compile
-RUN cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
-RUN cd /usr/local/src; tar xvzf /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64.tar.gz
+RUN cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.8.0.0-beta.x86_64.tar.gz
+RUN cd /usr/local/src; tar xvzf /usr/local/src/nr_agent_sdk-v0.8.0.0-beta.x86_64.tar.gz
+# Even though the version is 0.8, the dir is 0.7.2 o_0 @ new relic
 RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/lib/* /usr/local/lib/
 RUN cp /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/include/* /usr/local/include/
 
@@ -59,8 +61,8 @@ RUN apt-get install -y --force-yes autoconf automake binutils-dev build-essentia
   libjemalloc-dev libmcrypt-dev libmemcached-dev libmysqlclient-dev libncurses-dev \
   libonig-dev libpcre3-dev libreadline-dev libtbb-dev libtool libxml2-dev zlib1g-dev \
   libevent-dev libmagickwand-dev libinotifytools0-dev libiconv-hook-dev libedit-dev \
-  libiberty-dev libxslt1-dev ocaml-native-compilers \
-  php5-imagick
+  libiberty-dev libxslt1-dev ocaml-native-compilers librtmp-dev libmagickcore-dev libgnutls-dev/trusty librsvg2-dev/trusty \
+  php5-imagick gir1.2-rsvg-2.0 gir1.2-freedesktop/trusty
 
 # add nginx repository
 RUN add-apt-repository -y ppa:nginx/stable
@@ -76,7 +78,9 @@ RUN cd /usr/local/src
 RUN git clone https://github.com/facebook/hhvm.git /usr/local/src/hhvm
 # Or for debug/dev use github ssh which is 3x faster speed, but you need the ssh keys setup
 #RUN git clone git@github.com:facebook/hhvm.git
-RUN cd /usr/local/src/hhvm; git checkout -b HHVM-3.1.0; rm -r third-party; git submodule update --init --recursive; cmake .; make; make install
+RUN cd /usr/local/src/hhvm; git checkout -b HHVM-3.1.0; rm -r third-party; git submodule update --init --recursive
+RUN cd /usr/local/src/hhvm; cmake .
+RUN cd /usr/local/src/hhvm; make; make install
 
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
