@@ -26,9 +26,9 @@ ENV HOME /root
 ENTRYPOINT ["/sbin/my_init"]
 
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 #RUN echo "deb http://mirror.optus.net/ubuntu/ trusty main universe" > /etc/apt/sources.list
-RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ trusty main universe" > /etc/apt/sources.list
+#RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ trusty main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get -y upgrade
 
