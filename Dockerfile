@@ -96,13 +96,14 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir /etc/service/nginx
 ADD nginx.sh /etc/service/nginx/run
+RUN chmod +x /etc/service/nginx/run
 
 #RUN mkdir /var/www
 #RUN chown -R www-data:www-data /var/www
 
 
 # create a directory with a sample index.php file
-RUN sudo mkdir -p /mnt/hhvm
+RUN mkdir -p /mnt/hhvm
 RUN chown -R www-data:www-data /mnt/hhvm
 
 # echo something for testing purposes, with hiphop it will only show text: Hiphop
@@ -113,8 +114,8 @@ ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
 #ADD ./supervisord.conf /etc/supervisord.conf
 #ADD ./config.hdf /mnt/hhvm/config.hdf
 
-
-RUN sudo /usr/share/hhvm/install_fastcgi.sh
+RUN chmod +x /usr/share/hhvm/install_fastcgi.sh
+RUN /usr/share/hhvm/install_fastcgi.sh
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
