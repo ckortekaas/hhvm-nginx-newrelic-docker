@@ -114,8 +114,8 @@ ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
 #ADD ./supervisord.conf /etc/supervisord.conf
 #ADD ./config.hdf /mnt/hhvm/config.hdf
 
-RUN chmod +x /usr/share/hhvm/install_fastcgi.sh
-RUN /usr/share/hhvm/install_fastcgi.sh
+#RUN chmod +x /usr/share/hhvm/install_fastcgi.sh
+#RUN /usr/share/hhvm/install_fastcgi.sh
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
