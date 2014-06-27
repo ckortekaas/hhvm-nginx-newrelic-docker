@@ -85,7 +85,7 @@ RUN cd /usr/local/src/hhvm; make; make install
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
-RUN cd  /usr/local/src/hhvm/hhvm-newrelic-ext; hphpize; cmake .; make
+RUN cd  /usr/local/src/hhvm-newrelic-ext; hphpize; cmake .; make
 
 RUN export HPHP_HOME=/usr/share/hhvm-profile/
 
