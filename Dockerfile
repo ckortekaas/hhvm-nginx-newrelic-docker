@@ -82,8 +82,8 @@ RUN cd /usr/local/src/hhvm; git checkout -b HHVM-3.1.0; rm -r third-party; git s
 RUN cd /usr/local/src/hhvm; cmake .
 RUN cd /usr/local/src/hhvm; make; make install
 
-RUN mv /usr/lib/libnewrelic*.so /usr/lib/
-RUN mv /usr/include/newrelic*.h /usr/include/
+RUN mv /usr/local/lib/libnewrelic*.so /usr/lib/
+RUN mv /usr/local/include/newrelic*.h /usr/include/
 
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
