@@ -101,14 +101,6 @@ RUN sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.co
 RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-#RUN mkdir /etc/service/nginx
-#ADD nginx.sh /etc/service/nginx/run
-#RUN chmod +x /etc/service/nginx/run
-
-#RUN mkdir /var/www
-#RUN chown -R www-data:www-data /var/www
-
-
 # create a directory with a sample index.php file
 RUN mkdir -p /mnt/hhvm
 RUN chown -R www-data:www-data /mnt/hhvm
@@ -119,8 +111,15 @@ RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/index.php
 # For newer NGINX
 ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
 #ADD ./supervisord.conf /etc/supervisord.conf
-#ADD ./config.hdf /mnt/hhvm/config.hdf
+ADD ./config.hdf /mnt/hhvm/config.hdf
 
+RUN mkdir /etc/service/hhvm
+ADD hhvm.sh /etc/service/hhvm/run
+RUN chmod +x /etc/service/hhvm/run
+
+RUN mkdir /etc/service/nginx
+ADD nginx.sh /etc/service/nginx/run
+RUN chmod +x /etc/service/nginx/run
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
