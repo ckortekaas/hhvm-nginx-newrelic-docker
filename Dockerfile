@@ -95,8 +95,8 @@ RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir /etc/service/nginx
-ADD nginx.sh /etc/service/nginx/run
-RUN chmod +x /etc/service/nginx/run
+#ADD nginx.sh /etc/service/nginx/run
+#RUN chmod +x /etc/service/nginx/run
 
 #RUN mkdir /var/www
 #RUN chown -R www-data:www-data /var/www
