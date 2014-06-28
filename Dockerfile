@@ -82,6 +82,9 @@ RUN cd /usr/local/src/hhvm; git checkout -b HHVM-3.1.0; rm -r third-party; git s
 RUN cd /usr/local/src/hhvm; cmake .
 RUN cd /usr/local/src/hhvm; make; make install
 
+RUN mv /usr/lib/libnewrelic*.so /usr/lib/
+RUN mv /usr/include/newrelic*.h /usr/include/
+
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
@@ -122,7 +125,7 @@ ADD nginx.sh /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
 
 # Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # private expose
 EXPOSE 80
