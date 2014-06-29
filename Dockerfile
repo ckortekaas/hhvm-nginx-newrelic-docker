@@ -88,13 +88,13 @@ RUN mv /usr/local/include/newrelic*.h /usr/include/
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
-RUN cd  /usr/local/src/hhvm-newrelic-ext; hphpize; cmake .; make
+RUN cd  /usr/local/src/hhvm-newrelic-ext; hphpize; cmake .; make; make install
 
 #Now that we've built the new relic extension using the full hhvm, we can remove it and install the apt package for it instead
 #RUN cd  /usr/local/src/hhvm; xargs rm < install_manifest.txt
-#RUN apt-get update -y; apt-get install hhvm
+#RUN apt-get update -y; apt-get -y install hhvm
 
-RUN export HPHP_HOME=/usr/share/hhvm-profile/
+#RUN export HPHP_HOME=/usr/share/hhvm-profile/
 
 #RUN chmod +x /usr/share/hhvm/install_fastcgi.sh
 #RUN /usr/share/hhvm/install_fastcgi.sh
@@ -117,16 +117,18 @@ ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
 #ADD ./supervisord.conf /etc/supervisord.conf
 ADD ./config.hdf /mnt/hhvm/config.hdf
 
-#RUN mkdir /etc/service/hhvm
-#ADD hhvm.sh /etc/service/hhvm/run
-#RUN chmod +x /etc/service/hhvm/run
+RUN mkdir /etc/service/hhvm
+ADD hhvm.sh /etc/service/hhvm/run
+RUN chmod +x /etc/service/hhvm/run
 
-#RUN mkdir /etc/service/nginx
-#ADD nginx.sh /etc/service/nginx/run
-#RUN chmod +x /etc/service/nginx/run
+RUN mkdir /etc/service/nginx
+ADD nginx.sh /etc/service/nginx/run
+RUN chmod +x /etc/service/nginx/run
 
 # Clean up APT when done.
 #RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Testing/debug tools - enable when developing/testing the container build
+#apt-get -y install mlocate lynx; updatedb
 
 # private expose
 EXPOSE 80
