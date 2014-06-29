@@ -107,11 +107,11 @@ RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # create a directory with a sample index.php file
-RUN mkdir -p /mnt/hhvm
-RUN chown -R www-data:www-data /mnt/hhvm
+RUN mkdir -p /mnt/hhvm/public
+RUN chown -R www-data:www-data /mnt/hhvm/public
 
 # echo something for testing purposes, with hiphop it will only show text: Hiphop
-RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/index.php
+RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php
 
 # For newer NGINX
 ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
