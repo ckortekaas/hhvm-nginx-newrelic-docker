@@ -89,6 +89,7 @@ RUN mv /usr/local/include/newrelic*.h /usr/include/
 RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
 #RUN git clone git@github.com:chregu/hhvm-newrelic-ext
 RUN cd  /usr/local/src/hhvm-newrelic-ext; hphpize; cmake .; make; make install
+RUN mkdir /var/log/hhvm
 
 #Now that we've built the new relic extension using the full hhvm, we can remove it and install the apt package for it instead
 #RUN cd  /usr/local/src/hhvm; xargs rm < install_manifest.txt
