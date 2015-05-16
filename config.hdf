@@ -7,8 +7,8 @@ EnvVariables {
   NEWRELIC_LICENSE_KEY = REPLACE_ME
   NEWRELIC_APP_NAME = HHVM Example
   NEWRELIC_APP_LANGUAGE = php-hhvm
-  NEWRELIC_APP_LANGUAGE_VERSION = 3.1.0
-  NEWRELIC_LOG_PROPERTIES_FILE = /usr/local/src/nr_agent_sdk-v0.7.2.0-beta.x86_64/config/log4cplus.properties
+  NEWRELIC_APP_LANGUAGE_VERSION = 3.7.0
+  NEWRELIC_LOG_PROPERTIES_FILE = /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/config/log4cplus.properties
 }
 
 Eval {
