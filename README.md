@@ -1,8 +1,8 @@
 Overview
 ========
-HHVM (3.1.0 / "Kanye West"), Nginx, New Relic on Ubuntu 14.04 Trusty via Phusion cleaned Ubuntu
+HHVM (3.7.0), Nginx, New Relic on Ubuntu 15.04 "Vivid"
 
-Some ideas forked from Joostvanderlaan/dockerfiles and nikolaplejic/docker.hhvm on github.com mixing in some Phusion Ubuntu 14.04 and new relic using the @chregu hhvm extension build example
+Some ideas forked from Joostvanderlaan/dockerfiles and nikolaplejic/docker.hhvm on github.com mixing in some new relic using the @chregu hhvm extension build example
 
 Status
 ======
