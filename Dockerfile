@@ -10,15 +10,6 @@ MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
 # Set correct environment variables.
 ENV HOME /root
 
-# Regenerate SSH host keys. baseimage-docker does not contain any, so you
-# have to do that yourself. You may also comment out this instruction; the
-# init system will auto-generate one during boot.
-#RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-# Use baseimage-docker's init system.
-#ENTRYPOINT ["/sbin/my_init"]
-
-
 #RUN echo "deb http://archive.ubuntu.com/ubuntu vivid main universe" > /etc/apt/sources.list
 RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/sources.list
 #RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ vivid main universe" > /etc/apt/sources.list
@@ -76,7 +67,10 @@ ADD ./config.hdf /mnt/hhvm/config.hdf
 # Clean up APT when done.
 #RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Testing/debug tools - enable when developing/testing the container build
-#apt-get -y install mlocate lynx; updatedb
+apt-get -y install vim mlocate lynx; updatedb
+
+apt-get -y install supervisor
+
 
 # private expose
 EXPOSE 80
