@@ -30,9 +30,9 @@ ENV HOME /root
 # Clean up APT when done.
 
 RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/sources.list && \
-  apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-  add-apt-repository 'deb http://dl.hhvm.com/ubuntu vivid main'
-  RUN add-apt-repository -y ppa:nginx/stable
+  apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449 && \
+  add-apt-repository 'deb http://dl.hhvm.com/ubuntu vivid main' && \
+  RUN add-apt-repository -y ppa:nginx/stable && \
   apt-get update -y && \
   apt-get install -y software-properties-common wget git aptitude supervisor && \
   cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.16.1.0-beta.x86_64.tar.gz && \
