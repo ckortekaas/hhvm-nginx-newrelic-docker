@@ -10,67 +10,56 @@ MAINTAINER Christiaan Kortekaas <mrangryfish@gmail.com>
 # Set correct environment variables.
 ENV HOME /root
 
+#Development/tweaking helpers
 #RUN echo "deb http://archive.ubuntu.com/ubuntu vivid main universe" > /etc/apt/sources.list
-RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/sources.list
 #RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ vivid main universe" > /etc/apt/sources.list
-RUN apt-get update -y
+#apt-get install -y nano
+#RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
+#ADD ./hhvm.conf /etc/nginx/hhvm.conf
+#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+# Testing/debug tools - enable when developing/testing the container build
+#RUN apt-get -y install vim mlocate lynx; updatedb
 
-# Otherwise you cannot add repositories
-RUN apt-get install -y software-properties-common wget nano git
-
-# Add HHVM repository
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
-RUN add-apt-repository 'deb http://dl.hhvm.com/ubuntu vivid main'
 
 # Add New Relic HHVM Extension and compile
-RUN cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.16.1.0-beta.x86_64.tar.gz
-RUN cd /usr/local/src; tar xvzf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64.tar.gz
-RUN cp /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/lib/* /usr/local/lib/
-RUN cp /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/include/* /usr/local/include/
-
-# add nginx repository
-RUN add-apt-repository -y ppa:nginx/stable
-
-# Run after setting repositories
-RUN apt-get update -y
-
 # Basic Requirements - Installing Nginx before HHVM allowed HHVM to detect Nginx and create the /etc/nginx/hhvm.conf file for you.
-RUN apt-get -y install nginx python-setuptools curl unzip
-
-RUN apt-get install -y aptitude
-RUN aptitude install -y -f hhvm-dev hhvm
-
 # Clone the hhvm newrelic extension (non-official) which uses the agent sdk
-RUN git clone https://github.com/ckortekaas/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
-#RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
-RUN cd  /usr/local/src/hhvm-newrelic-ext && hphpize && cmake . && make && make install
-
-#ADD ./hhvm.conf /etc/nginx/hhvm.conf
-
 # nginx config
-RUN sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf
-RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
-#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
 # create a directory with a sample index.php file
-RUN mkdir -p /mnt/hhvm/public
-RUN chown -R www-data:www-data /mnt/hhvm/public
-
 # echo something for testing purposes, with hiphop it will only show text: Hiphop
-RUN echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php
+# Clean up APT when done.
+
+RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/sources.list && \
+  apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
+  add-apt-repository 'deb http://dl.hhvm.com/ubuntu vivid main'
+  RUN add-apt-repository -y ppa:nginx/stable
+  apt-get update -y && \
+  apt-get install -y software-properties-common wget git aptitude supervisor && \
+  cd /usr/local/src; wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v0.16.1.0-beta.x86_64.tar.gz && \
+  cd /usr/local/src; tar xvzf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64.tar.gz && \
+  cp /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/lib/* /usr/local/lib/ && \
+  cp /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/include/* /usr/local/include/ && \
+  apt-get -y install nginx python-setuptools curl unzip && \
+  aptitude install -y -f hhvm-dev hhvm && \
+  git clone https://github.com/ckortekaas/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext && \
+  cd  /usr/local/src/hhvm-newrelic-ext && hphpize && cmake . && make && make install && \
+  sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
+  sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf && \
+  mkdir -p /mnt/hhvm/public && \
+  chown -R www-data:www-data /mnt/hhvm/public && \
+  echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # For newer NGINX
-ADD ./nginx-site.conf /etc/nginx/sites-enabled/default
-#ADD ./supervisord.conf /etc/supervisord.conf
-ADD ./config.hdf /mnt/hhvm/config.hdf
+COPY ./nginx-site.conf /etc/nginx/sites-enabled/default
+COPY ./config.hdf /mnt/hhvm/config.hdf
 
-# Clean up APT when done.
-#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# Testing/debug tools - enable when developing/testing the container build
-apt-get -y install vim mlocate lynx; updatedb
+COPY opt/nginx.sh /opt/nginx.sh
+COPY opt/php-fpm.sh /opt/hhvm.sh
+RUN chmod +x /opt/hhvm.sh && chmod +x /opt/nginx.sh
 
-apt-get -y install supervisor
-
+COPY etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 # private expose
 EXPOSE 80
