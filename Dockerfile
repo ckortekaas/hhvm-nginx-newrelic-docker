@@ -49,7 +49,7 @@ RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/so
   mkdir -p /mnt/hhvm/public && \
   chown -R www-data:www-data /mnt/hhvm/public && \
   echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php && \
-  apt-get purge -y wget git hhvm-dev && \
+  apt-get purge -y wget git hhvm-dev aptitude && \
   apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   rm -rf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64
 
