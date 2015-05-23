@@ -49,15 +49,16 @@ RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/so
   mkdir -p /mnt/hhvm/public && \
   chown -R www-data:www-data /mnt/hhvm/public && \
   echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  apt-get purge -y wget git hhvm-dev && \
+  apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  rm -rf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64
 
 # For newer NGINX
 COPY ./nginx-site.conf /etc/nginx/sites-enabled/default
 COPY ./config.hdf /mnt/hhvm/config.hdf
 
-COPY opt/nginx.sh /opt/nginx.sh
-COPY opt/php-fpm.sh /opt/hhvm.sh
-RUN chmod +x /opt/hhvm.sh && chmod +x /opt/nginx.sh
+COPY opt/* /opt/
+RUN chmod +x /opt/hhvm.sh && chmod +x /opt/nginx.sh && chmod +x /opt/newrelic.sh
 
 COPY etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
