@@ -18,5 +18,5 @@ If you want to run something more interesting than 'hello world', mount the /var
 If you want to setup your own nginx config, you can mount that too with -v to /etc/nginx/sites-enabled eg:
 
 ```
-docker run -t ckortekaas/hhvm-nginx-newrelic -v /path/to/the/host/machine/php-app-directory:/var/app/current :ro -v /path/to/the/host/machine/nginx-sites-enabled-directory:/etc/nginx/sites-enabled:ro
+docker run -p 80:80 -t ckortekaas/hhvm-nginx-newrelic -v /path/to/the/host/machine/php-app-directory:/var/app/current/public :ro -v /path/to/the/host/machine/nginx-conf.d-directory:/etc/nginx/conf.d:ro
 ```
