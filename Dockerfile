@@ -63,5 +63,7 @@ RUN chmod +x /opt/hhvm.sh && chmod +x /opt/nginx.sh && chmod +x /opt/newrelic.sh
 COPY etc/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
+#TODO: add papertrail support and doco
+
 # private expose
 EXPOSE 80

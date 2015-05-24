@@ -1,6 +1,6 @@
 Server {
   Port = 80
-  SourceRoot = /mnt/hhvm/public
+  SourceRoot = /var/app/current/public
 }
 
 EnvVariables {

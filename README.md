@@ -13,7 +13,7 @@ Configuration
 =============
 Run the container with dir and config.hdf in /mnt/hhvm. Replace the NEWRELIC_LICENSE_KEY and NEWRELIC_APP_NAME with your own first.
 
-If you want to run something more interesting than 'hello world', mount the /mnt/hhvm dir with php content in /mnt/hhvm/public.
+If you want to run something more interesting than 'hello world', mount the /var/app/current dir with php content in /var/app/current/public.
 
 If you want to setup your own nginx config, you can mount that too with -v to /etc/nginx/sites-enabled eg:
 
