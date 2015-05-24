@@ -45,9 +45,9 @@ RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/so
   cd  /usr/local/src/hhvm-newrelic-ext && hphpize && cmake . && make && make install && \
   sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
   sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf && \
-  mkdir -p /mnt/hhvm/public && \
-  chown -R www-data:www-data /mnt/hhvm/public && \
-  echo "<?php echo 'hello world'; ?>" > /mnt/hhvm/public/index.php && \
+  mkdir -p /var/app/current/public && \
+  chown -R www-data:www-data /var/app/current/public && \
+  echo "<?php echo 'hello world'; ?>" > /var/app/current/public/index.php && \
   apt-get purge -y wget git hhvm-dev aptitude && \
   apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   rm -rf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64
