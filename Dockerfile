@@ -15,7 +15,6 @@ ENV HOME /root
 #RUN echo "deb http://mirror.aarnet.edu.au/ubuntu/ vivid main universe" > /etc/apt/sources.list
 #apt-get install -y nano
 #RUN git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext
-#ADD ./hhvm.conf /etc/nginx/hhvm.conf
 #RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 # Testing/debug tools - enable when developing/testing the container build
 #RUN apt-get -y install vim mlocate lynx; updatedb
@@ -54,8 +53,9 @@ RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/so
   rm -rf /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64
 
 # For newer NGINX
-COPY ./nginx-site.conf /etc/nginx/sites-enabled/default
-COPY ./config.hdf /mnt/hhvm/config.hdf
+COPY /etc/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /etc/nginx/conf.d/* /etc/nginx/conf.d/
+COPY /opt/hhvm/config.hdf /opt/hhvm/config.hdf
 
 COPY opt/* /opt/
 RUN chmod +x /opt/hhvm.sh && chmod +x /opt/nginx.sh && chmod +x /opt/newrelic.sh

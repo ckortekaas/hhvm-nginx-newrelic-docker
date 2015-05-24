@@ -12,4 +12,4 @@ if [ ! -f /tmp/supervisord-hhvm.log ] ; then
   touch /tmp/supervisord-hhvm.log
 fi
 
-exec hhvm --mode server -vServer.Type=fastcgi -vServer.Port=9000 --config /mnt/hhvm/config.hdf
+exec hhvm --mode server -vServer.Type=fastcgi -vServer.Port=9000 --config /opt/hhvm/config.hdf
