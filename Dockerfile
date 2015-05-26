@@ -41,7 +41,7 @@ RUN echo "deb http://mirror.optus.net/ubuntu/ vivid main universe" > /etc/apt/so
   cp /usr/local/src/nr_agent_sdk-v0.16.1.0-beta.x86_64/include/* /usr/local/include/ && \
   apt-get -y install nginx python-setuptools curl unzip && \
   aptitude install -y -f hhvm-dev hhvm && \
-  git clone https://github.com/ckortekaas/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext && \
+  git clone https://github.com/chregu/hhvm-newrelic-ext.git /usr/local/src/hhvm-newrelic-ext && \
   cd  /usr/local/src/hhvm-newrelic-ext && hphpize && cmake . && make && make install && \
   sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
   sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf && \
