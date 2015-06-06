@@ -1,6 +1,6 @@
 Overview
 ========
-HHVM (3.7.0), Nginx, New Relic on Ubuntu 15.04 "Vivid"
+HHVM (3.7.1), Nginx, New Relic on Ubuntu 15.04 "Vivid"
 
 Some ideas forked from Joostvanderlaan/dockerfiles and nikolaplejic/docker.hhvm on github.com mixing in some new relic using the @chregu hhvm extension build example
 
