@@ -1,4 +1,4 @@
-# HHVM (3.7.0 / ""), Nginx, New Relic on Ubuntu 15.04
+# HHVM (3.7.1 / ""), Nginx, New Relic on Ubuntu 15.04
 # DO NOT USE IN PRODUCTION - this is an experiment more than anything so far...
 # Some ideas forked from Joostvanderlaan/dockerfiles and nikolaplejic/docker.hhvm on github.com mixing in some new relic
 
